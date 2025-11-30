@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NL to SQL</title>
+  <style>
+    body { font-family: Arial; background:#f5f5f5; padding:2rem; }
+    textarea, pre { width:100%; border-radius:8px; padding:8px; margin-top:8px; }
+    button { background:#0078ff; color:white; padding:8px 16px; border:none; border-radius:5px; margin-top:10px; cursor:pointer; }
+    button:hover { background:#005fcc; }
+  </style>
+</head>
+<body>
+  <h2>Natural Language to SQL Converter</h2>
+  <textarea id="query" rows="3" placeholder="Type your question..."></textarea><br>
+  <button onclick="runQuery()">Run</button>
+  <h3>Generated SQL:</h3>
+  <pre id="sql"></pre>
+  <h3>Results:</h3>
+  <pre id="result"></pre>
+
+  <script>
+    async function runQuery() {
+      const nl_query = document.getElementById("query").value;
+      const resp = await fetch("http://127.0.0.1:8000/nl_to_sql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nl_query })
+      });
+      const data = await resp.json();
+      document.getElementById("sql").innerText = data.generated_sql || "Error generating SQL";
+      document.getElementById("result").innerText = JSON.stringify(data.result || data.error, null, 2);
+    }
+  </script>
+</body>
+</html>
