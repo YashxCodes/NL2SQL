@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>NL to SQL</title>
-  <style>
-    body { font-family: Arial; background:#f5f5f5; padding:2rem; }
-    textarea, pre { width:100%; border-radius:8px; padding:8px; margin-top:8px; }
-    button { background:#0078ff; color:white; padding:8px 16px; border:none; border-radius:5px; margin-top:10px; cursor:pointer; }
-    button:hover { background:#005fcc; }
-  </style>
+  <title>NL2SQL Web App</title>
 </head>
 <body>
-  <h2>Natural Language to SQL Converter</h2>
-  <textarea id="query" rows="3" placeholder="Type your question..."></textarea><br>
-  <button onclick="runQuery()">Run</button>
+  <h2>Ask Your Query in English</h2>
+  <input id="input" style="width:400px;" placeholder="e.g. Show all employees in HR" />
+  <button onclick="ask()">Submit</button>
+
   <h3>Generated SQL:</h3>
   <pre id="sql"></pre>
-  <h3>Results:</h3>
+
+  <h3>Result:</h3>
   <pre id="result"></pre>
 
   <script>
-    async function runQuery() {
-      const nl_query = document.getElementById("query").value;
-      const resp = await fetch("http://127.0.0.1:8000/nl_to_sql", {
+    async function ask() {
+      const input = document.getElementById("input").value;
+      const res = await fetch("http://localhost:8000/nl_to_sql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nl_query })
+        body: JSON.stringify({ question: input })
       });
-      const data = await resp.json();
-      document.getElementById("sql").innerText = data.generated_sql || "Error generating SQL";
+      const data = await res.json();
+      document.getElementById("sql").innerText = data.sql;
       document.getElementById("result").innerText = JSON.stringify(data.result || data.error, null, 2);
     }
   </script>

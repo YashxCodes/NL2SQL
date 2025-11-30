@@ -1,0 +1,5 @@
+{"question": "Show all employees in HR", "sql": "SELECT * FROM employees WHERE dept_id=1;"}
+{"question": "List all departments", "sql": "SELECT * FROM departments;"}
+{"question": "Show names of employees with salary above 60000", "sql": "SELECT name FROM employees WHERE salary > 60000;"}
+{"question": "Get names and salaries of employees in Engineering", "sql": "SELECT name, salary FROM employees WHERE dept_id=3;"}
+{"question": "Show each employee's name and their project name", "sql": "SELECT e.name, p.proj_name FROM employees e JOIN projects p ON e.emp_id = p.emp_id;"}

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pymysql
+transformers
+peft
+datasets
+torch
+accelerate
+bitsandbytes
